@@ -19,7 +19,7 @@ Or install it yourself as:
 ## Usage
 
 ```ruby
-["start now", "advance 2 days", "advance 4 days", "advance 1 week"]
+advance_rules = ["start now", "advance 2 days", "advance 4 days", "advance 1 week"]
 
 window_rules = "Monday-Thursday 9am-11am"
 
