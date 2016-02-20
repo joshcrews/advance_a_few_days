@@ -3,8 +3,29 @@ require 'active_support'
 require 'active_support/core_ext/numeric/time'
 
 module AdvanceAFewDays
-  
+
   def self.create_days(window_rules, start_rules, start_datetime = Time.now)
+    schedule = create_days_on_earliest_send_time(window_rules, start_rules, start_datetime = Time.now)
+
+    randomize_times(window_rules, schedule)
+  end
+
+  def self.randomize_times(window_rules, schedule)
+    schedule.map do |datetime|
+      new_randomized_time_in_range = new_randomized_time_in_range(window_rules)
+      combine_date_and_time(datetime.to_date, new_randomized_time_in_range)
+    end
+  end
+
+  def self.new_randomized_time_in_range(window_rules)
+    early_time, late_time = extra_time_range_from_rules(window_rules)
+
+    range = late_time - early_time
+
+    early_time + rand * range.to_f
+  end
+  
+  def self.create_days_on_earliest_send_time(window_rules, start_rules, start_datetime = Time.now)
 
     start_rules.reduce([]) do |acc, rule| 
       value = if acc == []

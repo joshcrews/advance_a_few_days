@@ -2,7 +2,9 @@ require 'spec_helper'
 
 describe AdvanceAFewDays do
 
-  describe "create_days" do
+
+
+  describe "create_days_on_earliest_send_time" do
     let(:rule1) { "start now" }
     let(:rule2) { "advance 2 days" }
     let(:rule3) { "advance 4 days" }
@@ -14,7 +16,7 @@ describe AdvanceAFewDays do
 
     let(:start_datetime) { DateTime.strptime('2016-02-20 09:00:00', '%Y-%m-%d %H:%M:%S') }
 
-    subject { AdvanceAFewDays.create_days(window_rules, advance_rules, start_datetime) }
+    subject { AdvanceAFewDays.create_days_on_earliest_send_time(window_rules, advance_rules, start_datetime) }
 
     it 'should return the future advance times' do
       date1 = DateTime.strptime('2016-02-22 09:00:00', '%Y-%m-%d %H:%M:%S')
@@ -23,6 +25,24 @@ describe AdvanceAFewDays do
       date4 = DateTime.strptime('2016-03-07 09:00:00', '%Y-%m-%d %H:%M:%S')
 
       expect(subject).to eq [date1, date2, date3, date4]
+    end
+
+    describe "randomize_times" do
+      it 'should randomize the times within the window_rules range' do
+
+        date1 = DateTime.strptime('2016-02-22 10:00:00', '%Y-%m-%d %H:%M:%S')
+        date2 = DateTime.strptime('2016-02-24 10:00:00', '%Y-%m-%d %H:%M:%S')
+        date3 = DateTime.strptime('2016-02-29 10:00:00', '%Y-%m-%d %H:%M:%S')
+        date4 = DateTime.strptime('2016-03-07 10:00:00', '%Y-%m-%d %H:%M:%S')
+
+        randomized_send_times_schedule = AdvanceAFewDays.randomize_times(window_rules, subject)
+
+        expect(randomized_send_times_schedule[0]).to be_within(1.hours).of date1
+        expect(randomized_send_times_schedule[1]).to be_within(1.hours).of date2
+        expect(randomized_send_times_schedule[2]).to be_within(1.hours).of date3
+        expect(randomized_send_times_schedule[3]).to be_within(1.hours).of date4
+
+      end
     end
 
     context "starting Sunday" do
