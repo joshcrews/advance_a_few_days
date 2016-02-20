@@ -167,8 +167,6 @@ module AdvanceAFewDays
   def self.extra_time_range_from_rules(window_rules)
     window_rules.gsub(" ", "").scan(/\d+.m/i)
       .map{|time| DateTime.strptime(time, '%H%p')}
-    rescue
-      binding.pry
   end
 
 end
