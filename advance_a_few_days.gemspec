@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'advance_two_days/version'
+require 'advance_a_few_days/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "advance_two_days"
-  spec.version       = AdvanceTwoDays::VERSION
+  spec.name          = "advance_a_few_days"
+  spec.version       = AdvanceAFewDays::VERSION
   spec.authors       = ["Josh Crews"]
   spec.email         = ["josh@joshcrews.com"]
   spec.summary       = %q{TODO: Write a short summary. Required.}

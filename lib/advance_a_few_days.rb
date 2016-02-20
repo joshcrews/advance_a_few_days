@@ -1,4 +1,4 @@
-require "advance_two_days/version"
+require "advance_a_few_days/version"
 require 'active_support'
 require 'active_support/core_ext/numeric/time'
 

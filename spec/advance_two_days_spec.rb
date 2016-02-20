@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe AdvanceTwoDays do
+describe AdvanceAFewDays do
 
   describe "create_days" do
     let(:rule1) { "start now" }
@@ -14,7 +14,7 @@ describe AdvanceTwoDays do
 
     let(:start_datetime) { DateTime.strptime('2016-02-20 09:00:00', '%Y-%m-%d %H:%M:%S') }
 
-    subject { AdvanceTwoDays.create_days(window_rules, advance_rules, start_datetime) }
+    subject { AdvanceAFewDays.create_days(window_rules, advance_rules, start_datetime) }
 
     it 'should return the future advance times' do
       date1 = DateTime.strptime('2016-02-22 09:00:00', '%Y-%m-%d %H:%M:%S')
@@ -62,7 +62,7 @@ describe AdvanceTwoDays do
     let(:window_rules) { "Monday-Thursday 9am-11am" }
     let(:start_datetime) { DateTime.strptime('2016-02-20 09:00:00', '%Y-%m-%d %H:%M:%S') }
     
-    subject { AdvanceTwoDays.find_next_occurence(window_rules, rule, start_datetime) }
+    subject { AdvanceAFewDays.find_next_occurence(window_rules, rule, start_datetime) }
 
     context "rule is start_now" do
       let(:rule) { "start now" }
