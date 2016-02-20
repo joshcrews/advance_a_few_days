@@ -18,7 +18,20 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+["start now", "advance 2 days", "advance 4 days", "advance 1 week"]
+
+window_rules = "Monday-Thursday 9am-11am"
+
+AdvanceAFewDays.create_days(window_rules, advance_rules)
+```
+OR
+
+```ruby
+startdate_time = 3.days.from_now # a Rails sugar thing
+
+AdvanceAFewDays.create_days(window_rules, advance_rules, startdate_time)
+```
 
 ## Contributing
 
