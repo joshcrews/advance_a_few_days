@@ -1,13 +1,24 @@
 require "advance_a_few_days/version"
 require 'active_support'
 require 'active_support/core_ext/numeric/time'
+require 'active_support/core_ext/numeric/time'
+require 'active_support/core_ext/time/zones'
 
 module AdvanceAFewDays
 
-  def self.create_days(window_rules, start_rules, start_datetime = Time.now)
-    schedule = create_days_on_earliest_send_time(window_rules, start_rules, start_datetime = Time.now)
+  def self.create_days(window_rules, start_rules, start_datetime = Time.now, time_zone_name = 'Eastern Time (US & Canada)')
+    schedule = create_days_on_earliest_send_time(window_rules, start_rules, start_datetime, time_zone_name)
 
-    randomize_times(window_rules, schedule)
+    randomized_times = randomize_times(window_rules, schedule)
+
+    moved_times_to_time_zone = move_times_to_time_zone(randomized_times, time_zone_name)
+  end
+
+  def self.move_times_to_time_zone(schedule, time_zone_name)
+    offset = Time.now.in_time_zone(time_zone_name).utc_offset
+    schedule.map do |date_time|
+      date_time + (offset.to_f / (60 * 60 * 24))
+    end
   end
 
   def self.randomize_times(window_rules, schedule)
@@ -25,7 +36,7 @@ module AdvanceAFewDays
     early_time + rand * range.to_f
   end
   
-  def self.create_days_on_earliest_send_time(window_rules, start_rules, start_datetime = Time.now)
+  def self.create_days_on_earliest_send_time(window_rules, start_rules, start_datetime)
 
     start_rules.reduce([]) do |acc, rule| 
       value = if acc == []

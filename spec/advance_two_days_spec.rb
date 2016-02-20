@@ -16,6 +16,8 @@ describe AdvanceAFewDays do
 
     let(:start_datetime) { DateTime.strptime('2016-02-20 09:00:00', '%Y-%m-%d %H:%M:%S') }
 
+    let(:time_zone_name) { 'Eastern Time (US & Canada)' }
+
     subject { AdvanceAFewDays.create_days_on_earliest_send_time(window_rules, advance_rules, start_datetime) }
 
     it 'should return the future advance times' do
@@ -42,6 +44,24 @@ describe AdvanceAFewDays do
         expect(randomized_send_times_schedule[2]).to be_within(1.hours).of date3
         expect(randomized_send_times_schedule[3]).to be_within(1.hours).of date4
 
+      end
+
+      describe "move times to time zone" do
+        it 'should move the times to time zone' do
+
+          date1 = DateTime.strptime('2016-02-22 04:00:00', '%Y-%m-%d %H:%M:%S')
+          date2 = DateTime.strptime('2016-02-24 04:00:00', '%Y-%m-%d %H:%M:%S')
+          date3 = DateTime.strptime('2016-02-29 04:00:00', '%Y-%m-%d %H:%M:%S')
+          date4 = DateTime.strptime('2016-03-07 04:00:00', '%Y-%m-%d %H:%M:%S')
+
+          in_time_zone = AdvanceAFewDays.move_times_to_time_zone(subject, time_zone_name)
+
+          expect(in_time_zone[0]).to eq date1
+          expect(in_time_zone[1]).to eq date2
+          expect(in_time_zone[2]).to eq date3
+          expect(in_time_zone[3]).to eq date4
+
+        end
       end
     end
 
