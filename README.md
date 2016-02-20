@@ -1,6 +1,6 @@
 # AdvanceAFewDays
 
-TODO: Write a gem description
+This library takes a time window time frame like "Monday-Thursday 9am-11am", and a array of rules about advancing dates `["start now", "advance 2 days", "advance 4 days", "advance 1 week"]` and returns datetimes.
 
 ## Installation
 
@@ -17,6 +17,8 @@ Or install it yourself as:
     $ gem install advance_a_few_days
 
 ## Usage
+
+
 
 ```ruby
 advance_rules = ["start now", "advance 2 days", "advance 4 days", "advance 1 week"]
