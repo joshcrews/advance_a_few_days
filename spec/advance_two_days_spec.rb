@@ -25,6 +25,90 @@ describe AdvanceAFewDays do
       expect(subject).to eq [date1, date2, date3, date4]
     end
 
+    context "starting Sunday" do
+
+      let(:start_datetime) { DateTime.strptime('2016-02-21 09:00:00', '%Y-%m-%d %H:%M:%S') }
+
+      it 'should return the future advance times' do
+        date1 = DateTime.strptime('2016-02-22 09:00:00', '%Y-%m-%d %H:%M:%S')
+        date2 = DateTime.strptime('2016-02-24 09:00:00', '%Y-%m-%d %H:%M:%S')
+        date3 = DateTime.strptime('2016-02-29 09:00:00', '%Y-%m-%d %H:%M:%S')
+        date4 = DateTime.strptime('2016-03-07 09:00:00', '%Y-%m-%d %H:%M:%S')
+
+        expect(subject).to eq [date1, date2, date3, date4]
+      end
+    end
+
+    context "starting Monday" do
+
+      let(:start_datetime) { DateTime.strptime('2016-02-22 09:00:00', '%Y-%m-%d %H:%M:%S') }
+
+      it 'should return the future advance times' do
+        date1 = DateTime.strptime('2016-02-22 09:00:00', '%Y-%m-%d %H:%M:%S')
+        date2 = DateTime.strptime('2016-02-24 09:00:00', '%Y-%m-%d %H:%M:%S')
+        date3 = DateTime.strptime('2016-02-29 09:00:00', '%Y-%m-%d %H:%M:%S')
+        date4 = DateTime.strptime('2016-03-07 09:00:00', '%Y-%m-%d %H:%M:%S')
+
+        expect(subject).to eq [date1, date2, date3, date4]
+      end
+    end
+
+    context "starting Tuesday" do
+
+      let(:start_datetime) { DateTime.strptime('2016-02-23 09:00:00', '%Y-%m-%d %H:%M:%S') }
+
+      it 'should return the future advance times' do
+        date1 = DateTime.strptime('2016-02-23 09:00:00', '%Y-%m-%d %H:%M:%S')
+        date2 = DateTime.strptime('2016-02-25 09:00:00', '%Y-%m-%d %H:%M:%S')
+        date3 = DateTime.strptime('2016-02-29 09:00:00', '%Y-%m-%d %H:%M:%S')
+        date4 = DateTime.strptime('2016-03-07 09:00:00', '%Y-%m-%d %H:%M:%S')
+
+        expect(subject).to eq [date1, date2, date3, date4]
+      end
+    end
+
+    context "starting Wednesday" do
+
+      let(:start_datetime) { DateTime.strptime('2016-02-24 09:00:00', '%Y-%m-%d %H:%M:%S') }
+
+      it 'should return the future advance times' do
+        date1 = DateTime.strptime('2016-02-24 09:00:00', '%Y-%m-%d %H:%M:%S')
+        date2 = DateTime.strptime('2016-02-29 09:00:00', '%Y-%m-%d %H:%M:%S')
+        date3 = DateTime.strptime('2016-03-07 09:00:00', '%Y-%m-%d %H:%M:%S')
+        date4 = DateTime.strptime('2016-03-14 09:00:00', '%Y-%m-%d %H:%M:%S')
+
+        expect(subject).to eq [date1, date2, date3, date4]
+      end
+    end
+
+    context "starting Thursday" do
+
+      let(:start_datetime) { DateTime.strptime('2016-02-25 09:00:00', '%Y-%m-%d %H:%M:%S') }
+
+      it 'should return the future advance times' do
+        date1 = DateTime.strptime('2016-02-25 09:00:00', '%Y-%m-%d %H:%M:%S')
+        date2 = DateTime.strptime('2016-02-29 09:00:00', '%Y-%m-%d %H:%M:%S')
+        date3 = DateTime.strptime('2016-03-07 09:00:00', '%Y-%m-%d %H:%M:%S')
+        date4 = DateTime.strptime('2016-03-14 09:00:00', '%Y-%m-%d %H:%M:%S')
+
+        expect(subject).to eq [date1, date2, date3, date4]
+      end
+    end
+
+    context "starting Friday" do
+
+      let(:start_datetime) { DateTime.strptime('2016-02-26 09:00:00', '%Y-%m-%d %H:%M:%S') }
+
+      it 'should return the future advance times' do
+        date1 = DateTime.strptime('2016-02-29 09:00:00', '%Y-%m-%d %H:%M:%S')
+        date2 = DateTime.strptime('2016-03-02 09:00:00', '%Y-%m-%d %H:%M:%S')
+        date3 = DateTime.strptime('2016-03-07 09:00:00', '%Y-%m-%d %H:%M:%S')
+        date4 = DateTime.strptime('2016-03-14 09:00:00', '%Y-%m-%d %H:%M:%S')
+
+        expect(subject).to eq [date1, date2, date3, date4]
+      end
+    end
+
     context "Wednesday-Thursday 10am-11am" do
 
       let(:window_rules) { "Wednesday-Thursday 10am-11am" }
