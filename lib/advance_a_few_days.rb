@@ -7,7 +7,7 @@ require 'active_support/core_ext/time/zones'
 module AdvanceAFewDays
 
   def self.create_days(window_rules, start_rules, start_datetime = Time.now, time_zone_name = 'Eastern Time (US & Canada)')
-    schedule = create_days_on_earliest_send_time(window_rules, start_rules, start_datetime, time_zone_name)
+    schedule = create_days_on_earliest_send_time(window_rules, start_rules, start_datetime)
 
     randomized_times = randomize_times(window_rules, schedule)
 
@@ -126,10 +126,6 @@ module AdvanceAFewDays
     parse_days_of_week(window_rules).include?(start_datetime.wday)
   end
 
-  def self.day_names_to_numbers(day_names)
-    day_names.map{|day_name| day_name_to_number(day_name)}
-  end
-
   def self.day_name_to_number(day_name)
     case day_name
     when /sunday/i
@@ -152,37 +148,9 @@ module AdvanceAFewDays
   end
 
   def self.parse_days_of_week(window_rules)
-    just_day_names = just_day_names(window_rules)
-
-    just_day_names
-      .split(",")
-      .map(&:strip)
-      .map{|day_text| parse_day_text_as_if_range(day_text)}
-      .flatten
-  end
-
-  def self.parse_day_text_as_if_range(day_text)
-    if day_text =~ /-/
-      parse_day_names_range(day_text)
-    else
-      day_names_to_numbers(extract_day_names(day_text))
-    end
-  end
-
-  def self.just_day_names(window_rules)
-    window_rules.split(/\d+am|pm/i).first.strip
-  end
-
-  def self.parse_day_names_range(just_day_names)
-    range_first, range_last = just_day_names.split(/-+/, 2).map(&:strip)
-
-    range_first_number = day_name_to_number(range_first)
-    range_last_number = day_name_to_number(range_last)
-    (range_first_number..range_last_number).to_a
-  end
-
-  def self.extract_day_names(just_day_names)
-    just_day_names.split(",").map(&:strip)
+    window_rules[:days]
+      .split(":")
+      .map{|day_name| day_name_to_number(day_name)}
   end
 
   def self.at_a_good_time?(window_rules, start_datetime)
@@ -197,8 +165,7 @@ module AdvanceAFewDays
   end
 
   def self.extra_time_range_from_rules(window_rules)
-    window_rules.gsub(" ", "").scan(/\d+.m/i)
-      .map{|time| DateTime.strptime(time, '%H%p')}
+    [DateTime.strptime(window_rules[:start_time], '%H:%M'), DateTime.strptime(window_rules[:end_time], '%H:%M')]
   end
 
 end

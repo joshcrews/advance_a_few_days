@@ -2,6 +2,44 @@ require 'spec_helper'
 
 describe AdvanceAFewDays do
 
+  describe "create_days" do
+    let(:rule1) { "start now" }
+    let(:rule2) { "advance 2 days" }
+    let(:rule3) { "advance 4 days" }
+    let(:rule4) { "advance 1 week" }
+
+    let(:advance_rules) { [rule1, rule2, rule3, rule4]}
+
+    let(:time_zone_name) { 'Eastern Time (US & Canada)' }
+
+    let(:window_rules) do
+      {
+        days:       "Monday:Tuesday:Wednesday:Thursday",
+        start_time: "9:00",
+        end_time:   "11:00",
+      }
+    end
+
+    
+    let(:start_datetime) { DateTime.strptime('2016-02-20 09:00:00', '%Y-%m-%d %H:%M:%S') }
+
+    let(:time_zone_name) { 'Eastern Time (US & Canada)' }
+
+    subject { AdvanceAFewDays.create_days(window_rules, advance_rules, start_datetime) }
+
+    it 'should return the future advance times' do
+      date1 = Date.parse('2016-02-22')
+      date2 = Date.parse('2016-02-24')
+      date3 = Date.parse('2016-02-29')
+      date4 = Date.parse('2016-03-07')
+
+      #
+      # more of a basic than exact check
+      #
+
+      expect(subject.map(&:to_date)).to eq [date1, date2, date3, date4]
+    end
+  end
 
 
   describe "create_days_on_earliest_send_time" do
@@ -12,7 +50,15 @@ describe AdvanceAFewDays do
 
     let(:advance_rules) { [rule1, rule2, rule3, rule4]}
 
-    let(:window_rules) { "Monday-Thursday 9am-11am" }
+    let(:window_rules) do
+      {
+        days:       "Monday:Tuesday:Wednesday:Thursday",
+        start_time: "9:00",
+        end_time:   "11:00",
+      }
+    end
+
+    
 
     let(:start_datetime) { DateTime.strptime('2016-02-20 09:00:00', '%Y-%m-%d %H:%M:%S') }
 
@@ -20,7 +66,7 @@ describe AdvanceAFewDays do
 
     subject { AdvanceAFewDays.create_days_on_earliest_send_time(window_rules, advance_rules, start_datetime) }
 
-    it 'should return the future advance times' do
+    it 'should return the future advance times', focus: true do
       date1 = DateTime.strptime('2016-02-22 09:00:00', '%Y-%m-%d %H:%M:%S')
       date2 = DateTime.strptime('2016-02-24 09:00:00', '%Y-%m-%d %H:%M:%S')
       date3 = DateTime.strptime('2016-02-29 09:00:00', '%Y-%m-%d %H:%M:%S')
@@ -151,7 +197,14 @@ describe AdvanceAFewDays do
 
     context "Wednesday-Thursday 10am-11am" do
 
-      let(:window_rules) { "Wednesday-Thursday 10am-11am" }
+      let(:window_rules) do
+        {
+          days:       "Wednesday:Thursday",
+          start_time: "10:00",
+          end_time:   "11:00",
+        }
+      end
+
 
       it 'should return the future advance times' do
         date1 = DateTime.strptime('2016-02-24 10:00:00', '%Y-%m-%d %H:%M:%S')
@@ -166,7 +219,13 @@ describe AdvanceAFewDays do
 
     context "Monday, Wednesday, Friday 10am-11am" do
 
-      let(:window_rules) { "Monday, Wednesday, Friday 1pm-2pm" }
+      let(:window_rules) do
+        {
+          days:       "Monday:Wednesday:Friday",
+          start_time: "13:00",
+          end_time:   "14:00",
+        }
+      end
 
       it 'should return the future advance times' do
         date1 = DateTime.strptime('2016-02-22 13:00:00', '%Y-%m-%d %H:%M:%S')
@@ -183,7 +242,14 @@ describe AdvanceAFewDays do
 
   describe "find_next_occurence" do
 
-    let(:window_rules) { "Monday-Thursday 9am-11am" }
+    let(:window_rules) do
+      {
+        days:       "Monday:Tuesday:Wednesday:Thursday",
+        start_time: "9:00",
+        end_time:   "11:00",
+      }
+    end
+
     let(:start_datetime) { DateTime.strptime('2016-02-20 09:00:00', '%Y-%m-%d %H:%M:%S') }
     
     subject { AdvanceAFewDays.find_next_occurence(window_rules, rule, start_datetime) }
@@ -209,7 +275,14 @@ describe AdvanceAFewDays do
         end
 
         context "window rules dates is comma separated" do
-          let(:window_rules) { "Wednesday, Friday 9am-11am" }
+
+          let(:window_rules) do
+            {
+              days:       "Wednesday:Friday",
+              start_time: "9:00",
+              end_time:   "11:00",
+            }
+          end
 
           it "should return next time in window_rules" do
             date1 = DateTime.strptime('2016-02-24 09:00:00', '%Y-%m-%d %H:%M:%S')
@@ -218,7 +291,14 @@ describe AdvanceAFewDays do
         end
 
         context "window rules dates are both a range and comma separated" do
-          let(:window_rules) { "Monday, Wednesday-Thursday 9am-11am" }
+
+          let(:window_rules) do
+            {
+              days:       "Monday:Wednesday:Thursday",
+              start_time: "9:00",
+              end_time:   "11:00",
+            }
+          end
 
           it "should return next time in window_rules" do
             date1 = DateTime.strptime('2016-02-22 09:00:00', '%Y-%m-%d %H:%M:%S')

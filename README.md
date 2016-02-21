@@ -23,9 +23,13 @@ Or install it yourself as:
 ```ruby
 advance_rules = ["start now", "advance 2 days", "advance 4 days", "advance 1 week"]
 
-window_rules = "Monday-Thursday 9am-11am"
+window_rules = {
+       days:       "Monday:Tuesday:Wednesday:Thursday",
+       start_time: "9:00",
+       end_time:   "11:00",
+     }
 
-AdvanceAFewDays.create_days(window_rules, advance_rules)
+AdvanceAFewDays.create_days(window_rules, advance_rules, Time.now, 'Eastern Time (US & Canada)')
 ```
 OR
 
