@@ -95,10 +95,10 @@ describe AdvanceAFewDays do
       describe "move times to time zone" do
         it 'should move the times to time zone' do
 
-          date1 = DateTime.strptime('2016-02-22 04:00:00', '%Y-%m-%d %H:%M:%S')
-          date2 = DateTime.strptime('2016-02-24 04:00:00', '%Y-%m-%d %H:%M:%S')
-          date3 = DateTime.strptime('2016-02-29 04:00:00', '%Y-%m-%d %H:%M:%S')
-          date4 = DateTime.strptime('2016-03-07 04:00:00', '%Y-%m-%d %H:%M:%S')
+          date1 = DateTime.strptime('2016-02-22 14:00:00', '%Y-%m-%d %H:%M:%S')
+          date2 = DateTime.strptime('2016-02-24 14:00:00', '%Y-%m-%d %H:%M:%S')
+          date3 = DateTime.strptime('2016-02-29 14:00:00', '%Y-%m-%d %H:%M:%S')
+          date4 = DateTime.strptime('2016-03-07 14:00:00', '%Y-%m-%d %H:%M:%S')
 
           in_time_zone = AdvanceAFewDays.move_times_to_time_zone(subject, time_zone_name)
 

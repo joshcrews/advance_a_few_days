@@ -17,7 +17,7 @@ module AdvanceAFewDays
   def self.move_times_to_time_zone(schedule, time_zone_name)
     offset = Time.now.in_time_zone(time_zone_name).utc_offset
     schedule.map do |date_time|
-      date_time + (offset.to_f / (60 * 60 * 24))
+      date_time - (offset.to_f / (60 * 60 * 24))
     end
   end
 
