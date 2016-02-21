@@ -24,10 +24,14 @@ Or install it yourself as:
 advance_rules = ["start now", "advance 2 days", "advance 4 days", "advance 1 week"]
 
 window_rules = {
-       days:       "Monday:Tuesday:Wednesday:Thursday",
-       start_time: "9:00",
-       end_time:   "11:00",
-     }
+  working_hours: {
+    mon: {"09:00" => "11:00"},
+    tue: {"09:00" => "11:00"},
+    wed: {"09:00" => "11:00"},
+    thu: {"09:00" => "11:00"}
+  },
+  time_zone: 'Eastern Time (US & Canada)'
+}
 
 AdvanceAFewDays.create_days(window_rules, advance_rules, Time.now, 'Eastern Time (US & Canada)')
 ```
